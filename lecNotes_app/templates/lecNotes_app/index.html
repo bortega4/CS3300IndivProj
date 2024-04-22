@@ -5,6 +5,17 @@
 {% block content %}
 <h1>Welcome to lecNotes App!</h1>
 
-<h2>More to come from Bryant</h2>
+<div class = "container">
+    <h2>UCCS Programs</h2>
+        <ul class="list-group">
+            {% for i in uccs_programs %}
+                <a href="{{ i.get_absolute_url }}"><li class="list-group-item"> {{i}}
+                </li></a>
+            {% endfor %}
+            </u1>
+
+</div>
+
+<h3>More to come from Bryant</h3>
 
 {% endblock %}

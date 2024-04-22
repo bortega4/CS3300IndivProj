@@ -1,0 +1,20 @@
+{% extends "lecNotes_app/base_template.html" %}
+{%block title%}
+Course Details
+{%endblock%}
+ 
+<!-- Replace block content in base_template.html -->
+{% block content %}
+<!--This is where you are going to create a header that pulls student name-->
+<h1>{{ course.coursePrefixAndCode }} Lecture Notes</h1>
+
+<ul class="list-group">
+    {% for courseNotes in course.lecturenotes_set.all %}
+        <li><a href="#">Lecture Number: {{ courseNotes.lectureNum }} - {{ courseNotes.lectureDate }}</a></li>
+    {% endfor %}
+</ul> 
+
+
+
+ 
+{% endblock %}
