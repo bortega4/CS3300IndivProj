@@ -1,0 +1,26 @@
+{% extends "lecNotes_app/base_template.html" %}
+{%block title%}
+Search Results
+{%endblock%}
+
+
+{% block content %}
+
+<h1>Search Results</h1>
+
+{% if error_message %}
+		<div class="alert alert-danger" role="alert">
+			{{ error_message }}
+		</div>
+{% endif %}
+
+<ul class="list-group">
+	{% for course in search_results %}
+		<div class="card">
+			<li class="list-group-item"><a href="{{ course.get_absolute_url }}">{{ course.coursePrefixAndCode }} - {{ course.courseName }}</a></li>
+		</div>
+		<!-- consider using [ { ]% empty %[ } ] to write no results found-->
+	{% endfor %}
+</ul>
+
+{% endblock %}

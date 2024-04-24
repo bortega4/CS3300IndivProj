@@ -9,13 +9,16 @@
     <h2>UCCS Programs</h2>
         <ul class="list-group">
             {% for i in uccs_programs %}
+            <div class="card">
+                <div class="card-body">
                 <a href="{{ i.get_absolute_url }}"><li class="list-group-item"> {{i}}
                 </li></a>
+            </div>
+            </div>
             {% endfor %}
             </u1>
 
 </div>
 
-<h3>More to come from Bryant</h3>
 
 {% endblock %}

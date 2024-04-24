@@ -37,19 +37,41 @@
              {% endif %}
            </div>
          </div>
+         
          <!--Create lecNotes button here, link create lecNotes form here-->
          <div class="btn ml-auto">
-          <a class="btn btn-info" href="#" role="button"> Create lecNotes</a>
+            <a class="btn btn-info" href="{% url 'create_lecNotes' %}" role="button"> Create lecNotes</a>
          </div>
+
+         <!--search form code-->
+         <div class="search_form">
+          <form action="{% url 'search_results' %}" method="get">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <select class="form-select" id="searchMethod" name="search_method">
+                        <option value="coursePrefixAndCode">Course Prefix and Code</option>
+                        <option value="coursePrefix">Course Prefix</option>
+                        <option value="courseCode">Course Code</option>
+                    </select>
+                </div>
+                <input class="form-control" name="q" type="text" placeholder="<-Select Search method, then Search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-info" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+      </div>
+        
        </div>
      </nav>
+
 
        <div class="col-sm-10">
          <!-- add block content from html template -->
          {% block content %}
          {% endblock %}
        </div>
-     </div>
+     
    </div>
  </body>
 </html>

@@ -5,7 +5,25 @@ Create Lecture Notes
 {% endblock %}
 
 {% block content %}
-<!-- Add your form HTML here -->
 <h1>Create Lecture Notes</h1>
 <!-- Add your form fields here -->
+<form method="post" action="{% url 'create_lecNotes' %}">
+    <table>
+        {% csrf_token %}
+        <tr><th>LectureNum</th>
+            <th>LectureDate</th>
+            <th>Course</th>
+            <th>Lecturer</th>
+            <th>Action</th>
+        </tr>
+        <tr>
+            {% for field in form %}
+                <td>{{ field }}</td>
+            {% endfor %}
+            <td><button name="save">Save</button></td>
+        </tr>
+
+    </table>
+</form>
+
 {% endblock %}

@@ -10,7 +10,19 @@ Course Details
 
 <ul class="list-group">
     {% for courseNotes in course.lecturenotes_set.all %}
-        <li><a href="#">Lecture Number: {{ courseNotes.lectureNum }} - {{ courseNotes.lectureDate }}</a></li>
+        <div class="card">
+            <div class="card-body d-flex justify-content-between">
+                <div>
+                    <li><a href="#">Lecture Number: {{ courseNotes.lectureNum }} - {{ courseNotes.lectureDate }}</a></li>
+                </div>
+                <div>
+                    <!--Add buttons here-->
+                    <a href="#" class="btn btn-info" role="button">Edit</a>
+                    <a href="#" class="btn btn-danger" role="button">Delete</a>
+                </div>
+            </div>
+        </div>
+
     {% endfor %}
 </ul> 
 
