@@ -14,6 +14,7 @@ Search Results
 		</div>
 {% endif %}
 
+{% comment %}
 <ul class="list-group">
 	{% for course in search_results %}
 		<div class="card">
@@ -22,5 +23,17 @@ Search Results
 		<!-- consider using [ { ]% empty %[ } ] to write no results found-->
 	{% endfor %}
 </ul>
+{% endcomment %}
+{% if search_results_list %}
+<ul>
+	{%for course in search_results_list %}
+		<div class="card">
+			<li><a href="{% url 'course-detail' course.pk %}">{{ course.coursePrefixAndCode }} - {{ course.courseName }}</a></li>
+		</div>
+		{% endfor %}
+	</ul>
+	{% else %}
+		<p>No courses match your search</p>
+	{% endif %}
 
 {% endblock %}
