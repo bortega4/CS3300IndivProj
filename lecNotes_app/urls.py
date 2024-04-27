@@ -1,4 +1,4 @@
-from django.urls import path, reverse
+from django.urls import path, include, reverse
 from . import views
 
 urlpatterns = [
@@ -17,11 +17,24 @@ urlpatterns = [
 
     path('create_lecNotes/', views.create_lecNotes, name = 'create_lecNotes'),
 
-    path('login/', views.login, name='login'),
+    #path('login/', views.login, name='login'),
 
     #URL pattern for course detail page with parameter for courseID
     path('course_details/<int:course_id>/', views.CourseDetailView.as_view(), name='course-detail'),
 
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
+
+    #user accounts
+    path('accounts/', include('django.contrib.auth.urls')),
+    #this automatically maps urls such as
+    #accounts/ login/ [name='login']
+    #accounts/ logout/ [name='logout']
+    #accounts/ password_change/ [name='password_change']
+    #and many others, refer to GE05 documentation pg3
+
+
+    path('accounts/register/', views.registerPage, name = 'register_page'),
+
+
 
 ]

@@ -1,12 +1,44 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.http import HttpResponse
-#from django.template import loader
 from django.views.generic import ListView, DetailView
-from django.db.models import Q
-from .models import Program, Course, Lecturer, LectureNotes
-from .forms import LecNotesForm, CourseForm
+from .models import Program, Course, Lecturer, LectureNotes, NotesAuthor, get_current_user
+from .forms import LecNotesForm, CourseForm, CreateUserForm
+from django.contrib import messages
+from django.contrib.auth.models import Group
+from .decorators import unauthenticated_user, allowed_users
+from django.contrib.auth.decorators import login_required
+
+#@login_required decorator will redirect a user who isn't logged in to
+#login page before they can view the page
+
+#@unauthenticated_user will redirect a user that is logged in - useful for registerPage function in
+#views.py because a logged in user should not be able to create a new user
+
+#@allowed_users allows us to specify which role is allowed to view the page
+#@allowed_users(allowed_roles=['author_role'])
+
 # Create your views here.
+@unauthenticated_user
+def registerPage(request):
+    form = CreateUserForm()
+
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            group = Group.objects.get(name='author_role')
+            user.groups.add(group)
+            author = NotesAuthor.objects.create(user=user)
+            author.save()
+
+            messages.success(request, 'Account was created for ' + username)
+            return redirect('login')
+        
+    context = { 'form':form}
+    return render(request, 'registration/register.html', context)
+
+
 def index(request):
     #Pulling UCCS Programs
     uccs_programs = Program.objects.all()
@@ -33,8 +65,11 @@ class ProgramDetailView(DetailView):
 class CourseDetailView(DetailView):
     model = Course
 
+@login_required(login_url='login')
 def create_lecNotes(request):
     context = {}
+    #getting current logged-in user
+    #user = request.user
     form = LecNotesForm()
     lecNotes = LectureNotes.objects.all()
 
@@ -52,6 +87,7 @@ def create_lecNotes(request):
                 lecturer = form.cleaned_data['existing_lecturer']
 
                 lecture_note = form.save(commit=False)
+                #lecture_note.user = get_current_user(request)
                 lecture_note.course = course
                 lecture_note.courseCode = course.courseCode
                 lecture_note.lecturer = lecturer
@@ -135,9 +171,11 @@ class SearchResultsView(ListView):
             #error_message = "Please verify search query aligns with search method."
             return Course.objects.none()#, error_message #returning empty queryset and error message
 
+
     
 
-
+'''
 #example for a second login page with a basic placeholder response
 def login(request):
     return render(HttpResponse, 'Login Page')
+'''

@@ -23,6 +23,25 @@ Create Lecture Notes
             <td><button name="save">Save</button></td>
         </tr>
 
+        {% comment %}
+        {% for lectureNote in lectureNotes%}
+        <div class="card">
+            <div class="card-body d-flex justify-content-between">
+                <div>
+                    <tr>
+                        <td>Lecture Number: {{ lectureNote.lectureNum }} - {{ lectureNote.lectureDate }}</td>
+                    </tr>
+                </div>
+                <div>
+                    <!--Add buttons here-->
+                    <a href="#" class="btn btn-info" role="button">Edit</a>
+                    <a href="#" class="btn btn-danger" role="button">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endcomment %}
+
     </table>
 </form>
 

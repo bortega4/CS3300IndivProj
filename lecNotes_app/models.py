@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 # Create your models here.
 #Remember that python goes line by line
@@ -56,6 +57,11 @@ class Lecturer(models.Model):
     #lecturer can have multiple courses, many lecturers to many courses?
     courses = models.ManyToManyField(Course)
     
+def get_current_user(request):
+    if request.user.is_authenticated:
+        return request.user
+    else:
+        return None
 
 class LectureNotes(models.Model):
     coursePrefix = models.CharField(max_length=200)
@@ -77,8 +83,19 @@ class LectureNotes(models.Model):
     #lectureNotes belong to one class, many lectureNotes to one course
     course = models.ForeignKey(Course, on_delete=models.CASCADE, default=None)
     lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE, default=None)
+    #user = models.ForeignKey(User, on_delete=models.CASCADE, default=get_current_user)
 
-    
+
+class NotesAuthor(models.Model):
+    authorName = models.CharField(max_length=50) 
+
+    def __str__(self):
+        return str(self.authorName)
+
+    def get_absolute_url(self):
+        return reverse('author-detail', args=[str(self.id)])
+
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)   
     
 
 
